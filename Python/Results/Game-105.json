@@ -1,0 +1,1 @@
+{"winner":2,"player1":{"score":204,"shield":1,"laser":0,"moves":["FORWARD","FORWARD","FACE_UP","FORWARD","FORWARD","FACE_RIGHT","NONE"],"teleport":0,"HP":0,"name":"AI1"},"player2":{"score":2586,"shield":0,"laser":0,"moves":["FACE_UP","NONE","NONE","NONE","SHOOT","NONE","NONE"],"teleport":0,"HP":2,"name":"Human"},"turnNumber":7,"mapPath":".\/Resources\/Maps\/SimpleMap1.json"}
