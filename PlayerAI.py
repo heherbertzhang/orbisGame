@@ -343,8 +343,16 @@ def checkWall(gameboard, player, opponent, directions):
                         else:
                                 directions[0] -= (50/abs(yWallDist))
 
+class PathNode(GameObject):
+	def __init__(self, x, y):
+		super().__init__(x, y)
+		self.g = 0
+		self.f = 0 # f = h + g
+def getAllObstacles():
+	pass # bullet and wall and laser
 
-
+def getNeighbours():
+	pass
 
 class PlayerAI:
         def __init__(self):
