@@ -78,7 +78,7 @@ def getPowerPoints(gameboard, player):
                         rightTotal += 0
 
         #tune down the total mark to be within range 100
-        
+
         rightTotal = rightTotal / maxScore * 100
         leftTotal = leftTotal / maxScore * 100
         upTotal = upTotal / maxScore * 100
@@ -171,7 +171,7 @@ def getDodgePoints(gameboard, player):
         turrets = gameboard.turrets
         maxScore = 100 * len(bullets)
         playerDirect = player.direction
-        rightTotal, leftTotal, upTotal, downTotal = maxScore, maxScore, maxScore, maxScore 
+        rightTotal, leftTotal, upTotal, downTotal = maxScore, maxScore, maxScore, maxScore
 
         for bullet in bullets:
                 right, left, up, down = 0, 0, 0, 0
@@ -218,7 +218,7 @@ def getDodgePoints(gameboard, player):
         #for turret in turrets:
                #if turret.x == player.x or turret.y == player.y:
                    #     if turret.cooldown_time < 2:
-                         #       rightTotal -= 
+                         #       rightTotal -=
 
                 return [upTotal, downTotal, leftTotal, rightTotal]
         else:
@@ -260,13 +260,13 @@ def dodgeBullet(gameboard, player, directions):
 def dodgeExploding(gameboard, player, directions):
         unsafey ={};
         unsafex ={};
-        
+
         for i in gameboard.turrets:
-                
+
                 if (i.is_firing_next_turn  == True):
                     unsafex[i.x] = 1
                     unsafey[i.y] =1
-        
+
         if (player.x -1) in unsafex:
                 directions[2] -= 100
                 print ("HAPPY")
@@ -302,7 +302,7 @@ def checkWall(gameboard, player, opponent, directions):
                         if xWallDist == 1:
                         #wall at right
                                 if(getMaxValue(directions) == 3):
-                                        global nextRight 
+                                        global nextRight
                                         nextRight = directions[3]
                                         #print ('!!!!!!!!!', nextRight)
                                 directions[3] = 0
@@ -311,7 +311,7 @@ def checkWall(gameboard, player, opponent, directions):
 
                         elif xWallDist == -1:
                                 if(getMaxValue(directions) == 2):
-                                        global nextLeft 
+                                        global nextLeft
                                         nextLeft = directions[2]
                                 directions[2] = 0
                                 print ("left: 01")
@@ -361,12 +361,12 @@ class PlayerAI:
 
         def get_move(self, gameboard, player, opponent):
                 # Write your AI here.
-                
+
 
                 #print (pX, pY, oX, oY)
                 #for powerUp in powerUps:
                 directions = getPowerPoints(gameboard, player)
-                dodgepoints = getDodgePoints(gameboard, player) 
+                dodgepoints = getDodgePoints(gameboard, player)
                 #print (dodgepoints)
                 for i in range(4):
                         directions[i] += dodgepoints[i] * 2
@@ -385,7 +385,7 @@ class PlayerAI:
                 nextCount += 1
 
                 if(nextCount >= 2):
-                        global nextUp 
+                        global nextUp
                         global nextDown
                         global nextRight
                         global nextLeft
@@ -395,18 +395,18 @@ class PlayerAI:
                 checkWall(gameboard, player, opponent, directions)
                 dodgeBullet(gameboard, player, directions)
                 dodgeExploding(gameboard, player, directions)
-                
 
-                
+
+
 
                 print(directions)
                 direction = 0;
                 for i in range(1,4):
                         if directions[i] > directions[direction]:
                                 direction = i
-                        
+
                 #print ("gameboard!", gameboard.power_ups[0].x, gameboard.power_ups[0].y)
-                
+
 
                 directionName = {
                         0: Direction.UP,
@@ -415,7 +415,7 @@ class PlayerAI:
                         3: Direction.RIGHT,
                 }[direction]
                 #print (directionName)
-                
+
                 if player.direction == directionName:
                         return Move.FORWARD
                 elif direction == 0:
