@@ -21,6 +21,60 @@ class Cell(object):
         self.g = 0
         self.h = 0
         self.f = 0
+def directionalAdder(direction, obj, value):
+    '''
+    return a + b in direction
+    '''
+    directAdder = {Direction.UP: lambda a: a.y += value, \
+        Direction.DOWN:lambda a: a.y -= value, \
+        Direction.LEFT:lambda a: a.x -= value, \
+        Direction.RIGHT:lambda a: a.x += value}
+    directAdder[direction](obj)
+    return obj
+    
+def isDangerZone(gameBoard, g, cell):
+    #dangerMap = {}
+    for bullet in gameBoard.bullets:
+        dloc =directionalAdder(direction, bullet.copy(), g)
+        if dloc.x == cell.x and dloc.y == cell.y:
+            return True
+        #dangerMap[(dloc.x, dloc.y)] = 1
+
+    for turret in gameBoard.turrets:
+        if turret.is_dead:
+            continue
+        if turret.is_firing_next_turn:
+            mod = turret.fire_time + turret.cooldown_time
+            result = g % mod
+            if result >= 1 and result <= turret.fire_time:
+                if isInTurretRange(): return True
+        else:
+            if isInTurretRange(): return True
+    return False
+def isInTurretRange():
+    # assume in danger
+    # find wall that stop the fire
+    if cell.x != turret.x and cell.y != turret.y:
+        return False
+    for wall in gameBoard.walls:
+        if cell.y == turret.y:
+            if wall.x < cell.x and wall.x > turret.x:
+            # fine for now
+                pass
+            elif wall.x > cell.x and wall.x < turret.x:
+                pass
+            else:
+                return True
+        if cell.x == turret.x:
+            if wall.y < cell.y and wall.y > turret.y:
+            # fine for now
+                pass
+            elif wall.y > cell.y and wall.y < turret.y:
+                pass
+            else:
+                return True
+     return False
+            
 
 class AStar(object):
     def __init__(self):
@@ -126,7 +180,8 @@ class AStar(object):
                 # get adjacent cells for cell
                 adj_cells = self.get_adjacent_cells(cell)
                 for adj_cell in adj_cells:
-                    if adj_cell.reachable and adj_cell not in self.closed:
+                    if adj_cell.reachable and adj_cell not in self.closed \
+                            and not isDangerZone(gameboard, (cell.g+10)/10, adj_cell):
                         if (adj_cell.f, adj_cell) in self.opened:
                             # if adj cell in open list, check if current path is
                             # better than the one previously found
@@ -154,6 +209,8 @@ class item:
             self.distance = 10 * (abs(itemPosition[0] - playerPosition[0]) + abs(itemPosition[1] - playerPosition[1]))
 
 
+def getDangers():
+    gameboard.
 class PlayerAI:
         def __init__(self):
             # Initialize any objects or variables you need here.
